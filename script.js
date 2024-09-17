@@ -32,45 +32,6 @@ function calculateTime(A, B, C, E, tol = 1e-6, maxIter = 1000) {
     return null;  // 沒有收斂
 }
 
-// 生成柱狀圖的函數
-function generateChart(initialInvestment, annualInvestment, finalAmount) {
-    var ctx = document.getElementById('myChart').getContext('2d');
-    
-    // 如果之前已經有圖表，先銷毀它
-    if (window.myChart) {
-        window.myChart.destroy();
-    }
-    
-    window.myChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['初始資金', '每年投入資金', '複利後最終資金'],
-            datasets: [{
-                label: '金額',
-                data: [initialInvestment, annualInvestment * 10, finalAmount],  // 假設10年的投入期
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(255, 206, 86, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(255, 206, 86, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-}
-
 // 主計算函數
 function calculate() {
     // 讀取輸入值
@@ -132,7 +93,4 @@ function calculate() {
 
     // 顯示結果
     document.getElementById('result').innerText = result;
-
-    // 生成柱狀圖
-    generateChart(A, B, E);
 }
