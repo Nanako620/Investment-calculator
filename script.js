@@ -32,6 +32,45 @@ function calculateTime(A, B, C, E, tol = 1e-6, maxIter = 1000) {
     return null;  // 沒有收斂
 }
 
+// 生成柱狀圖的函數
+function generateChart(initialInvestment, annualInvestment, finalAmount) {
+    var ctx = document.getElementById('myChart').getContext('2d');
+    
+    // 如果之前已經有圖表，先銷毀它
+    if (window.myChart) {
+        window.myChart.destroy();
+    }
+    
+    window.myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['初始資金', '每年投入資金', '複利後最終資金'],
+            datasets: [{
+                label: '金額',
+                data: [initialInvestment, annualInvestment * 10, finalAmount],  // 假設10年的投入期
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(255, 206, 86, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(255, 206, 86, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+}
+
 // 主計算函數
 function calculate() {
     // 讀取輸入值
@@ -42,22 +81,22 @@ function calculate() {
     let E = parseFloat(document.getElementById('E').value) || 0;
     let result = '';
 
-    // 計算複利後最終資金
+    // 計算複利後最終資金 (E)
     if (A > 0 && B >= 0 && C > 0 && D > 0 && E === 0) {
         E = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
-        result = `複利後最終資金為: ${E.toFixed(2)}`;
+        result = `複利後最終資金 (E) 為: ${E.toFixed(2)}`;
     }
-    // 計算初始資金
+    // 計算初始資金 (A)
     else if (B >= 0 && C > 0 && D > 0 && E > 0 && A === 0) {
         A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
-        result = `初始資金為: ${A.toFixed(2)}`;
+        result = `初始資金 (A) 為: ${A.toFixed(2)}`;
     }
-    // 計算每年投入資金
+    // 計算每年投入資金 (B)
     else if (A > 0 && C > 0 && D > 0 && E > 0 && B === 0) {
         B = (E - A * Math.pow(1 + C, D)) / ((Math.pow(1 + C, D) - 1) / C);
-        result = `每年投入資金為: ${B.toFixed(2)}`;
+        result = `每年投入資金 (B) 為: ${B.toFixed(2)}`;
     }
-    // 計算每年投資報酬率
+    // 計算每年投資報酬率 (C)
     else if (A > 0 && B >= 0 && D > 0 && E > 0 && C === 0) {
         let lowerBound = 0;
         let upperBound = 1;
@@ -75,15 +114,15 @@ function calculate() {
             }
         }
         C = (lowerBound + upperBound) / 2;
-        result = `每年投資報酬率為: ${(C * 100).toFixed(2)}%`;
+        result = `每年投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
     }
-    // 使用牛頓迭代法計算經過幾年
+    // 使用牛頓迭代法計算經過幾年 (D)
     else if (A > 0 && B >= 0 && C > 0 && E > 0 && D === 0) {
         D = calculateTime(A, B, C, E);
         if (D !== null) {
-            result = `經過幾年為: ${D.toFixed(2)}`;
+            result = `經過幾年 (D) 為: ${D.toFixed(2)}`;
         } else {
-            result = '無法計算出經過幾年';
+            result = '無法計算出經過幾年 (D)';
         }
     }
     // 提示用戶提供正確的輸入值
@@ -93,4 +132,7 @@ function calculate() {
 
     // 顯示結果
     document.getElementById('result').innerText = result;
+
+    // 生成柱狀圖
+    generateChart(A, B, E);
 }
