@@ -1,46 +1,78 @@
-function calculate() {
-    let A = parseFloat(document.getElementById('initialA').value);
-    let B = parseFloat(document.getElementById('annualB').value);
-    let C = parseFloat(document.getElementById('annualC').value) / 100;
-    let D = parseFloat(document.getElementById('finalD').value);
-    let E = parseFloat(document.getElementById('yearsE').value);
-
-    // 計算期末終值 D
-    if (!D && A && B && C && E) {
-        D = A * Math.pow((1 + C), E) + B * ((Math.pow((1 + C), E) - 1) / C);
-        document.getElementById('result').innerText = "期末終值 D 是: " + D.toFixed(2);
-    }
-    // 計算起始資金 A
-    else if (!A && D && B && C && E) {
-        A = (D - B * ((Math.pow((1 + C), E) - 1) / C)) / Math.pow((1 + C), E);
-        document.getElementById('result').innerText = "起始資金 A 是: " + A.toFixed(2);
-    }
-    // 計算每年投入 B
-    else if (!B && D && A && C && E) {
-        B = (D - A * Math.pow((1 + C), E)) / ((Math.pow((1 + C), E) - 1) / C);
-        document.getElementById('result').innerText = "每年投入 B 是: " + B.toFixed(2);
-    }
-    // 計算年化報酬率 C
-    else if (!C && D && A && B && E) {
-        C = Math.pow(D / (A + B * ((Math.pow((1 + C), E) - 1) / C))), 1 / E) - 1;
-        document.getElementById('result').innerText = "年化報酬率 C 是: " + (C * 100).toFixed(2) + "%";
-    }
-    // 計算經過時間 E
-    else if (!E && D && A && B && C) {
-        E = Math.log(D / (A + B * ((Math.pow((1 + C), E) - 1) / C))) / Math.log(1 + C);
-        document.getElementById('result').innerText = "經過時間 E 是: " + E.toFixed(2) + " 年";
-    }
-    else {
-        document.getElementById('result').innerText = "請輸入至少四個變數。";
-    }
-}
-<form id="calculator-form">
-    <label>起始資金 A: <input type="number" id="initialA"></label><br>
-    <label>每年投入 B: <input type="number" id="annualB"></label><br>
-    <label>年化報酬率 C(%): <input type="number" id="annualC"></label><br>
-    <label>期末終值 D: <input type="number" id="finalD"></label><br>
-    <label>經過時間（年） E: <input type="number" id="yearsE"></label><br>
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>資金計算器</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+        }
+        label {
+            display: block;
+            margin: 10px 0;
+        }
+        input {
+            margin-left: 10px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>資金計算器</h1>
+    <form id="calculator-form">
+        <label>起始資金 A: <input type="number" id="initialA" step="0.01"></label>
+        <label>每年投入資金 B: <input type="number" id="annualB" step="0.01"></label>
+        <label>年化報酬率 C (%): <input type="number" id="annualC" step="0.01"></label>
+        <label>經過時間（年） D: <input type="number" id="yearsD" step="0.01"></label>
+        <label>期末終值 E: <input type="number" id="finalE" step="0.01"></label>
+        
+        <button type="button" onclick="calculate()">計算</button>
+    </form>
     
-    <button type="button" onclick="calculate()">計算</button>
-</form>
-<p id="result"></p>
+    <p id="result"></p>
+
+    <script>
+        function calculate() {
+            // 獲取輸入值
+            let A = parseFloat(document.getElementById('initialA').value);
+            let B = parseFloat(document.getElementById('annualB').value);
+            let C = parseFloat(document.getElementById('annualC').value) / 100;
+            let D = parseFloat(document.getElementById('yearsD').value);
+            let E = parseFloat(document.getElementById('finalE').value);
+
+            // 計算期末終值 E
+            if (!E && A && B && C && D) {
+                E = A * Math.pow((1 + C), D) + B * ((Math.pow((1 + C), D) - 1) / C);
+                document.getElementById('result').innerText = "期末終值 E 是: " + E.toFixed(2);
+            }
+            // 計算起始資金 A
+            else if (!A && E && B && C && D) {
+                A = (E - B * ((Math.pow((1 + C), D) - 1) / C)) / Math.pow((1 + C), D);
+                document.getElementById('result').innerText = "起始資金 A 是: " + A.toFixed(2);
+            }
+            // 計算每年投入資金 B
+            else if (!B && E && A && C && D) {
+                B = (E - A * Math.pow((1 + C), D)) / ((Math.pow((1 + C), D) - 1) / C);
+                document.getElementById('result').innerText = "每年投入資金 B 是: " + B.toFixed(2);
+            }
+            // 計算年化報酬率 C
+            else if (!C && E && A && B && D) {
+                C = Math.pow(E / (A + B * ((Math.pow((1 + C), D) - 1) / C))), 1 / D) - 1;
+                document.getElementById('result').innerText = "年化報酬率 C 是: " + (C * 100).toFixed(2) + "%";
+            }
+            // 計算經過時間 D
+            else if (!D && E && A && B && C) {
+                D = Math.log((E - A * (1 + C)) / (B * C + A)) / Math.log(1 + C);
+                document.getElementById('result').innerText = "經過時間 D 是: " + D.toFixed(2) + " 年";
+            }
+            else {
+                document.getElementById('result').innerText = "請輸入至少四個變數。";
+            }
+        }
+    </script>
+</body>
+</html>
