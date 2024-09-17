@@ -45,17 +45,17 @@ function calculate() {
     // 計算複利後最終資金 (E)
     if (A > 0 && B >= 0 && C > 0 && D > 0 && E === 0) {
         E = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
-        result = `複利後最終資金 (E) 為: ${E.toFixed(2)}`;
+        result = `複利後最終資金為: ${E.toFixed(2)}`;
     }
     // 計算初始資金 (A)
     else if (B >= 0 && C > 0 && D > 0 && E > 0 && A === 0) {
         A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
-        result = `初始資金 (A) 為: ${A.toFixed(2)}`;
+        result = `初始資金為: ${A.toFixed(2)}`;
     }
     // 計算每年投入資金 (B)
     else if (A > 0 && C > 0 && D > 0 && E > 0 && B === 0) {
         B = (E - A * Math.pow(1 + C, D)) / ((Math.pow(1 + C, D) - 1) / C);
-        result = `每年投入資金 (B) 為: ${B.toFixed(2)}`;
+        result = `每年投入資金為: ${B.toFixed(2)}`;
     }
     // 計算每年投資報酬率 (C)
     else if (A > 0 && B >= 0 && D > 0 && E > 0 && C === 0) {
@@ -75,15 +75,15 @@ function calculate() {
             }
         }
         C = (lowerBound + upperBound) / 2;
-        result = `每年投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
+        result = `每年投資報酬率為: ${(C * 100).toFixed(2)}%`;
     }
     // 使用牛頓迭代法計算經過幾年 (D)
     else if (A > 0 && B >= 0 && C > 0 && E > 0 && D === 0) {
         D = calculateTime(A, B, C, E);
         if (D !== null) {
-            result = `經過幾年 (D) 為: ${D.toFixed(2)}`;
+            result = `經過幾年為: ${D.toFixed(2)}`;
         } else {
-            result = '無法計算出經過幾年 (D)';
+            result = '無法計算出經過幾年';
         }
     }
     // 提示用戶提供正確的輸入值
