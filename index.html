@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Investment Calculator</title>
+</head>
+<body>
+    <h1>Investment Calculator</h1>
+    <form id="calculator-form">
+        <label>起始資金 A: <input type="number" id="initialA"></label><br>
+        <label>每年投入 B: <input type="number" id="annualB"></label><br>
+        <label>年化報酬率 C(%): <input type="number" id="annualC"></label><br>
+        <label>期末終值 D: <input type="number" id="finalD"></label><br>
+        <label>經過時間（年） E: <input type="number" id="yearsE"></label><br>
+        <button type="button" onclick="calculate()">計算</button>
+    </form>
+    
+    <p id="result"></p>
+
+    <script>
+        function calculate() {
+            let A = parseFloat(document.getElementById('initialA').value) || 0;
+            let B = parseFloat(document.getElementById('annualB').value) || 0;
+            let C = parseFloat(document.getElementById('annualC').value) / 100 || 0;
+            let D = parseFloat(document.getElementById('finalD').value) || 0;
+            let E = parseFloat(document.getElementById('yearsE').value) || 0;
+
+            // 假設我們需要計算期末終值 D
+            if (!D) {
+                D = A * Math.pow((1 + C), E) + B * ((Math.pow((1 + C), E) - 1) / C);
+                document.getElementById('result').innerText = "期末終值 D 是: " + D.toFixed(2);
+            }
+            // 其他計算可以根據類似邏輯來完成
+        }
+    </script>
+</body>
+</html>
