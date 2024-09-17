@@ -6,38 +6,38 @@ function calculate() {
     const E = parseFloat(document.getElementById('E').value) || 0;
     let result = '';
 
-    if (A && B && C && D && !E) {
-        // Calculate E
-        E = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
-        result = `複利所累計的資金 (E) 為: ${E.toFixed(2)}`;
-    } else if (B && C && D && E && !A) {
-        // Calculate A
-        A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
-        result = `初始資金 (A) 為: ${A.toFixed(2)}`;
-    } else if (C && D && E && A && !B) {
-        // Calculate D
-        const futureValue = E - A * Math.pow(1 + C, D);
+    // 計算複利所累計的資金 (E)
+    if (A > 0 && B > 0 && C >= 0 && D > 0 && E === 0) {
+        const futureValue = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
+        result = `複利所累計的資金 (E) 為: ${futureValue.toFixed(2)}`;
+    }
+    // 計算初始資金 (A)
+    else if (B > 0 && C >= 0 && D > 0 && E > 0 && A === 0) {
+        const initialCapital = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
+        result = `初始資金 (A) 為: ${initialCapital.toFixed(2)}`;
+    }
+    // 計算經過時間 (D)
+    else if (C >= 0 && E > 0 && A > 0 && B > 0 && D === 0) {
+        const futureValue = E - A * Math.pow(1 + C, 0) - B * (Math.pow(1 + C, 0) - 1) / C;
         if (futureValue <= 0) {
             result = '經過時間 (D) 為: 無法計算';
         } else {
-            D = Math.log((E / A) - 1) / Math.log(1 + C);
-            result = `經過時間 (D) 為: ${D.toFixed(2)}`;
+            const time = Math.log((E * C + B) / (A * C + B)) / Math.log(1 + C);
+            result = `經過時間 (D) 為: ${time.toFixed(2)}`;
         }
-    } else if (D && E && A && B && !C) {
-        // Calculate C
-        const C = Math.pow(E / (A + B * ((Math.pow(1 + C, D) - 1) / C)), 1 / D) - 1;
-        result = `投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
-    } else if (E && A && B && C && !D) {
-        // Calculate D
-        const numerator = E - A * Math.pow(1 + C, 0);
-        const denominator = B;
-        if (denominator <= 0) {
-            result = '經過時間 (D) 為: 無法計算';
-        } else {
-            D = Math.log((E / (A + B)) / A) / Math.log(1 + C);
-            result = `經過時間 (D) 為: ${D.toFixed(2)}`;
-        }
-    } else {
+    }
+    // 計算投資報酬率 (C)
+    else if (D > 0 && E > 0 && A > 0 && B > 0 && C === 0) {
+        const annualReturn = Math.pow(E / (A + B * ((Math.pow(1 + C, D) - 1) / C)), 1 / D) - 1;
+        result = `投資報酬率 (C) 為: ${(annualReturn * 100).toFixed(2)}%`;
+    }
+    // 計算經過時間 (D) (另外一種情況)
+    else if (E > 0 && A > 0 && B > 0 && C >= 0 && D === 0) {
+        const time = Math.log(E / (A + B)) / Math.log(1 + C);
+        result = `經過時間 (D) 為: ${time.toFixed(2)}`;
+    }
+    // 提示用戶提供正確的輸入值
+    else {
         result = '請提供正確的輸入值以進行計算';
     }
 
