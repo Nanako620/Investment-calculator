@@ -5,13 +5,13 @@ body {
 }
 
 .container {
-    width: 300px;
+    width: 150px;
     margin: 100px auto;
     text-align: center;
 }
 
 h1 {
-    color: #66ffcc;
+    color: #A2C3C8;
 }
 
 .form-group {
@@ -19,20 +19,20 @@ h1 {
 }
 
 label, input {
-    color: #66ffcc;
+    color: #A2C3C8;
 }
 
 input {
     width: 100%;
     padding: 5px;
     background-color: #333;
-    border: 1px solid #66ffcc;
-    color: #66ffcc;
+    border: 1px solid #A2C3C8;
+    color: #A2C3C8;
 }
 
 button {
     padding: 10px 20px;
-    background-color: #66ffcc;
+    background-color: #A2C2C8;
     border: none;
     cursor: pointer;
     color: black;
@@ -44,5 +44,5 @@ button:hover {
 
 #result {
     margin-top: 20px;
-    color: #66ffcc;
+    color: #A2C2C8;
 }
