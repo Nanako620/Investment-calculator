@@ -34,3 +34,13 @@ function calculate() {
         document.getElementById('result').innerText = "請輸入至少四個變數。";
     }
 }
+<form id="calculator-form">
+    <label>起始資金 A: <input type="number" id="initialA"></label><br>
+    <label>每年投入 B: <input type="number" id="annualB"></label><br>
+    <label>年化報酬率 C(%): <input type="number" id="annualC"></label><br>
+    <label>期末終值 D: <input type="number" id="finalD"></label><br>
+    <label>經過時間（年） E: <input type="number" id="yearsE"></label><br>
+    
+    <button type="button" onclick="calculate()">計算</button>
+</form>
+<p id="result"></p>
