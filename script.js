@@ -28,37 +28,32 @@ function calculate() {
     }
     // 計算投資報酬率 (C)
     else if (D > 0 && E > 0 && A > 0 && B > 0 && C === 0) {
-        let numerator = E - A;
-        let denominator = B;
-        if (denominator <= 0) {
-            result = '投資報酬率 (C) 為: 無法計算';
-        } else {
-            // 使用數值解法計算 C，這裡需要迭代來找到合適的 C
-            const tolerance = 1e-6;
-            let lowerBound = 0;
-            let upperBound = 1;
-            let mid;
-            while (upperBound - lowerBound > tolerance) {
-                mid = (lowerBound + upperBound) / 2;
-                const estimatedE = A * Math.pow(1 + mid, D) + B * ((Math.pow(1 + mid, D) - 1) / mid);
-                if (estimatedE < E) {
-                    lowerBound = mid;
-                } else {
-                    upperBound = mid;
-                }
+        let low = 0;
+        let high = 1;
+        let mid;
+        const tolerance = 1e-6;
+        
+        while (high - low > tolerance) {
+            mid = (low + high) / 2;
+            const estimatedE = A * Math.pow(1 + mid, D) + B * ((Math.pow(1 + mid, D) - 1) / mid);
+            if (estimatedE < E) {
+                low = mid;
+            } else {
+                high = mid;
             }
-            C = (lowerBound + upperBound) / 2;
-            result = `投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
         }
+        
+        C = (low + high) / 2;
+        result = `投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
     }
     // 計算經過時間 (D)
     else if (E > 0 && A > 0 && B > 0 && C >= 0 && D === 0) {
         if (C === 0) {
             D = (E - A) / B;
         } else {
-            const numerator = E - A;
-            const denominator = B * (Math.pow(1 + C, D) - 1) / C;
-            if (numerator <= 0 || denominator <= 0) {
+            const numerator = (E - A) * C;
+            const denominator = B;
+            if (denominator <= 0 || numerator <= 0) {
                 result = '經過時間 (D) 為: 無法計算';
             } else {
                 D = Math.log((numerator / denominator + 1)) / Math.log(1 + C);
