@@ -7,22 +7,22 @@ function calculate() {
     let E = parseFloat(document.getElementById('E').value) || 0;
     let result = '';
 
-    // 計算複利後最終資金 (E)
+    // 計算複利後最終資金 
     if (A > 0 && B >= 0 && C > 0 && D > 0 && E === 0) {
         E = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
-        result = `複利後最終資金 (E) 為: ${E.toFixed(2)}`;
+        result = `複利後最終資金 為: ${E.toFixed(2)}`;
     }
-    // 計算初始資金 (A)
+    // 計算初始資金 
     else if (B >= 0 && C > 0 && D > 0 && E > 0 && A === 0) {
         A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
-        result = `初始資金 (A) 為: ${A.toFixed(2)}`;
+        result = `初始資金 為: ${A.toFixed(2)}`;
     }
-    // 計算每年投入資金 (B)
+    // 計算每年投入資金 
     else if (A > 0 && C > 0 && D > 0 && E > 0 && B === 0) {
         B = (E - A * Math.pow(1 + C, D)) / ((Math.pow(1 + C, D) - 1) / C);
-        result = `每年投入資金 (B) 為: ${B.toFixed(2)}`;
+        result = `每年投入資金 為: ${B.toFixed(2)}`;
     }
-    // 計算每年投資報酬率 (C)
+    // 計算每年投資報酬率 
     else if (A > 0 && B >= 0 && D > 0 && E > 0 && C === 0) {
         let lowerBound = 0;
         let upperBound = 1;
@@ -40,12 +40,12 @@ function calculate() {
             }
         }
         C = (lowerBound + upperBound) / 2;
-        result = `每年投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
+        result = `每年投資報酬率 為: ${(C * 100).toFixed(2)}%`;
     }
-    // 計算經過幾年 (D)
+    // 計算經過幾年 
     else if (A > 0 && B >= 0 && C > 0 && E > 0 && D === 0) {
         D = Math.log((E / A) / (1 + B * C / A)) / Math.log(1 + C);
-        result = `經過幾年 (D) 為: ${D.toFixed(2)}`;
+        result = `經過幾年 為: ${D.toFixed(2)}`;
     }
     // 提示用戶提供正確的輸入值
     else {
