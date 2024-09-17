@@ -17,38 +17,32 @@ function calculate() {
         A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
         result = `初始資金 (A) 為: ${A.toFixed(2)}`;
     }
-    // 計算經過時間 (D)
-    else if (C >= 0 && E > 0 && A > 0 && B > 0 && D === 0) {
-        const futureValue = E - A * Math.pow(1 + C, D);
+    // 計算每年投入資金 (B)
+    else if (A > 0 && C >= 0 && D > 0 && E > 0 && B === 0) {
+        // 檢查報酬率 C 是否為 0
         if (C === 0) {
-            D = (E - A) / B;
+            B = (E - A) / D;
         } else {
-            const numerator = E - A * Math.pow(1 + C, D);
-            const denominator = B * (Math.pow(1 + C, D) - 1) / C;
-            if (numerator <= 0 || denominator <= 0) {
-                result = '經過時間 (D) 為: 無法計算';
-            } else {
-                D = Math.log((E - A * Math.pow(1 + C, D)) / (B * (Math.pow(1 + C, D) - 1) / C + A)) / Math.log(1 + C);
-                result = `經過時間 (D) 為: ${D.toFixed(2)}`;
-            }
+            B = (E - A * Math.pow(1 + C, D)) / ((Math.pow(1 + C, D) - 1) / C);
         }
+        result = `每年投入資金 (B) 為: ${B.toFixed(2)}`;
     }
     // 計算投資報酬率 (C)
     else if (D > 0 && E > 0 && A > 0 && B > 0 && C === 0) {
-        const x = (E - A) / B;
-        if (x <= 0) {
+        const denominator = (E - A) / B + 1;
+        if (denominator <= 0) {
             result = '投資報酬率 (C) 為: 無法計算';
         } else {
-            C = Math.pow(E / (A + B * ((Math.pow(1 + C, D) - 1) / C)), 1 / D) - 1;
+            C = Math.pow(denominator, 1 / D) - 1;
             result = `投資報酬率 (C) 為: ${(C * 100).toFixed(2)}%`;
         }
     }
-    // 計算經過時間 (D) 的另一種情況
+    // 計算經過時間 (D)
     else if (E > 0 && A > 0 && B > 0 && C >= 0 && D === 0) {
         if (C === 0) {
             D = (E - A) / B;
         } else {
-            D = Math.log((E - A) / (B + A)) / Math.log(1 + C);
+            D = Math.log((E - A) / B + 1) / Math.log(1 + C);
             result = `經過時間 (D) 為: ${D.toFixed(2)}`;
         }
     }
