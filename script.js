@@ -42,22 +42,22 @@ function calculate() {
     let E = parseFloat(document.getElementById('E').value) || 0;
     let result = '';
 
-    // 計算複利後最終資金 (E)
+    // 計算複利後最終資金
     if (A > 0 && B >= 0 && C > 0 && D > 0 && E === 0) {
         E = A * Math.pow(1 + C, D) + B * ((Math.pow(1 + C, D) - 1) / C);
         result = `複利後最終資金為: ${E.toFixed(2)}`;
     }
-    // 計算初始資金 (A)
+    // 計算初始資金
     else if (B >= 0 && C > 0 && D > 0 && E > 0 && A === 0) {
         A = (E - B * ((Math.pow(1 + C, D) - 1) / C)) / Math.pow(1 + C, D);
         result = `初始資金為: ${A.toFixed(2)}`;
     }
-    // 計算每年投入資金 (B)
+    // 計算每年投入資金
     else if (A > 0 && C > 0 && D > 0 && E > 0 && B === 0) {
         B = (E - A * Math.pow(1 + C, D)) / ((Math.pow(1 + C, D) - 1) / C);
         result = `每年投入資金為: ${B.toFixed(2)}`;
     }
-    // 計算每年投資報酬率 (C)
+    // 計算每年投資報酬率
     else if (A > 0 && B >= 0 && D > 0 && E > 0 && C === 0) {
         let lowerBound = 0;
         let upperBound = 1;
@@ -77,7 +77,7 @@ function calculate() {
         C = (lowerBound + upperBound) / 2;
         result = `每年投資報酬率為: ${(C * 100).toFixed(2)}%`;
     }
-    // 使用牛頓迭代法計算經過幾年 (D)
+    // 使用牛頓迭代法計算經過幾年
     else if (A > 0 && B >= 0 && C > 0 && E > 0 && D === 0) {
         D = calculateTime(A, B, C, E);
         if (D !== null) {
